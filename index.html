@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Project Society — Autonomous A-Life simulation of the Iterated Prisoner's Dilemma with animated stick figures, energy-driven evolution, and mutation." />
+  <title>Project Society — Evolution of Trust</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <canvas id="simulation-canvas"></canvas>
+
+  <!-- ═══════ Left HUD — Population & Controls ═══════ -->
+  <div id="hud-left">
+    <div class="hud-title">
+      <span class="hud-icon">🧬</span>
+      PROJECT SOCIETY
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-label">POP</span>
+        <span class="stat-val" id="stat-population">0</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">GEN</span>
+        <span class="stat-val" id="stat-generation">0</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">☠️</span>
+        <span class="stat-val" id="stat-deaths">0</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">⚔️</span>
+        <span class="stat-val" id="stat-interactions">0</span>
+      </div>
+    </div>
+
+    <!-- Population Bars -->
+    <div class="pop-section">
+      <div class="pop-row">
+        <span class="pop-dot pop-dot-coop"></span>
+        <span class="pop-name">Cooperators</span>
+        <span class="pop-count" id="count-coop">0</span>
+      </div>
+      <div class="pop-bar"><div class="pop-bar-fill pop-fill-coop" id="bar-coop"></div></div>
+
+      <div class="pop-row">
+        <span class="pop-dot pop-dot-def"></span>
+        <span class="pop-name">Defectors</span>
+        <span class="pop-count" id="count-def">0</span>
+      </div>
+      <div class="pop-bar"><div class="pop-bar-fill pop-fill-def" id="bar-def"></div></div>
+
+      <div class="pop-row">
+        <span class="pop-dot pop-dot-tft"></span>
+        <span class="pop-name">Tit-for-Tat</span>
+        <span class="pop-count" id="count-tft">0</span>
+      </div>
+      <div class="pop-bar"><div class="pop-bar-fill pop-fill-tft" id="bar-tft"></div></div>
+
+      <div class="pop-row">
+        <span class="pop-dot pop-dot-grg"></span>
+        <span class="pop-name">Grudgers</span>
+        <span class="pop-count" id="count-grg">0</span>
+      </div>
+      <div class="pop-bar"><div class="pop-bar-fill pop-fill-grg" id="bar-grg"></div></div>
+    </div>
+
+    <!-- Dominant -->
+    <div class="leader-box">
+      <span class="leader-label">DOMINANT</span>
+      <span class="leader-name" id="leader-name">—</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="ctrl-grid">
+      <button id="btn-spawn" class="hud-btn" title="Spawn 1 random agent">
+        <span class="btn-icon">+</span> SPAWN
+      </button>
+      <button id="btn-spawn-5" class="hud-btn" title="Spawn 5 random agents">
+        <span class="btn-icon">⊕</span> +5
+      </button>
+      <button id="btn-pause" class="hud-btn" title="Pause / Resume">
+        <span class="btn-icon" id="pause-icon">⏸</span> <span id="pause-text">PAUSE</span>
+      </button>
+      <button id="btn-reset" class="hud-btn hud-btn-danger" title="Reset simulation">
+        <span class="btn-icon">↺</span> RESET
+      </button>
+    </div>
+
+    <!-- Sliders -->
+    <div class="slider-row">
+      <label class="slider-label">SPEED</label>
+      <input type="range" id="speed-slider" min="0.2" max="3" step="0.1" value="1" />
+      <span class="slider-val" id="speed-value">1.0×</span>
+    </div>
+    <div class="slider-row">
+      <label class="slider-label">MUTATE</label>
+      <input type="range" id="mutation-slider" min="0" max="20" step="1" value="5" />
+      <span class="slider-val" id="mutation-value">5%</span>
+    </div>
+
+    <!-- Payoff Reference -->
+    <div class="payoff-ref">
+      <div class="payoff-title">PAYOFF MATRIX</div>
+      <table class="payoff-table">
+        <thead><tr><th></th><th>C</th><th>D</th></tr></thead>
+        <tbody>
+          <tr><td class="pm-label">C</td><td class="pm-cc">+4,+4</td><td class="pm-cd">−1,+5</td></tr>
+          <tr><td class="pm-label">D</td><td class="pm-dc">+5,−1</td><td class="pm-dd">0, 0</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ═══════ Right HUD — Event Log ═══════ -->
+  <div id="hud-right">
+    <div class="hud-title">
+      <span class="hud-icon">📜</span>
+      EVENTS
+    </div>
+    <div class="event-log-wrapper">
+      <div id="event-log">
+        <div class="event-empty" id="event-empty">Simulation starting…</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
